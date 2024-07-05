@@ -2,7 +2,7 @@
 Based on Arduino Library developed by G.Krocker (Mad Frog Labs)
 and the corrections from balk77 and ViliusKraujutis.
 
-Modified for personal use by rs25-code
+Modified for personal use by rs25-code - https://github.com/rs25-code
 
 More info:
     https://hackaday.io/project/3475-sniffing-trinket/log/12363-mq135-arduino-library
