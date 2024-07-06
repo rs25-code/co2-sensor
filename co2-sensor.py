@@ -2,17 +2,26 @@
 Based on Arduino Library developed by G.Krocker (Mad Frog Labs)
 and the corrections from balk77 and ViliusKraujutis.
 
-Modified for personal use by rs25-code - https://github.com/rs25-code
-
 More info:
     https://hackaday.io/project/3475-sniffing-trinket/log/12363-mq135-arduino-library
     https://github.com/ViliusKraujutis/MQ135
     https://github.com/balk77/MQ135
+    
+2024 - Modified for personal use by rs25-code - https://github.com/rs25-code
+Updated reading the channel resistance from Pin 0 using Adafruit module
 """
 
 import math
 import time
-from machine import ADC
+import board
+import busio
+
+import adafruit_adsl1x15.ads1015 as ADS
+from adafruit_adsl1x15.anallog_in import AnalogIn
+
+i2c = busio.I2C(board.SCL, board.SCA)
+ads = ADS.ADS1015(i2c)
+channel = AnalogIn(ads, ADS.P0)
 
 class MQ135(object):
     """ Class for dealing with MQ13 Gas Sensors """
@@ -36,10 +45,6 @@ class MQ135(object):
     # Atmospheric CO2 level for calibration purposes
     ATMOCO2 = 397.13
 
-
-    def __init__(self, pin):
-        self.pin = pin
-
     def get_correction_factor(self, temperature, humidity):
         """Calculates the correction factor for ambient air temperature and relative humidity
 
@@ -55,8 +60,7 @@ class MQ135(object):
 
     def get_resistance(self):
         """Returns the resistance of the sensor in kOhms // -1 if not value got in pin"""
-        adc = ADC(self.pin)
-        value = adc.read()
+        value = channel.value
         if value == 0:
             return -1
 
