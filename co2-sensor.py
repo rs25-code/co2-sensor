@@ -45,6 +45,9 @@ class MQ135(object):
     # Atmospheric CO2 level for calibration purposes
     ATMOCO2 = 397.13
 
+    def __init__(self, pin):
+        self.pin = pin
+    
     def get_correction_factor(self, temperature, humidity):
         """Calculates the correction factor for ambient air temperature and relative humidity
 
